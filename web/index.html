@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 会话管理器</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="theme-dark">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-group">
+          <h1>AI 会话管理器</h1>
+          <nav class="top-nav">
+            <button class="top-nav-link active" data-tab="dashboard" type="button">仪表盘</button>
+            <button class="top-nav-link" data-tab="usage" type="button">用量</button>
+          </nav>
+        </div>
+
+        <div class="topbar-right">
+          <div class="usage-panel">
+            <div class="usage-title" id="membershipStatus">来源概览</div>
+            <div id="providerOverview" class="provider-overview"></div>
+            <div id="providerRefreshMeta" class="provider-refresh-meta">--</div>
+          </div>
+
+          <div class="topbar-icons">
+            <button id="themeToggleButton" class="icon-button" type="button" aria-label="切换主题">☀️</button>
+            <div class="profile-avatar">C</div>
+          </div>
+        </div>
+      </header>
+
+      <main id="dashboardPage" class="dashboard-shell">
+        <section class="list-pane">
+          <div class="filter-panel">
+            <div class="filter-panel-header">
+              <div class="filter-title-group">
+                <p class="filter-note">当前界面会自动聚合本机 Codex、Claude Code、Gemini CLI 的会话文件，刷新后会重新同步最新状态。</p>
+              </div>
+            </div>
+
+            <div class="search-row">
+              <input id="searchInput" type="search" placeholder="搜索标题 / ID / 路径 / 摘要" />
+              <button id="refreshButton" class="action-button action-button-primary" type="button">刷新</button>
+            </div>
+
+            <div class="filter-grid">
+              <select id="statusFilter">
+                <option value="all">状态: 全部</option>
+                <option value="active">状态: 活跃</option>
+                <option value="archived">状态: 已归档</option>
+                <option value="error">状态: 异常</option>
+              </select>
+              <select id="providerFilter">
+                <option value="all">来源: 全部</option>
+              </select>
+              <select id="workspaceFilter">
+                <option value="all">目录</option>
+              </select>
+              <select id="linkStatusFilter">
+                <option value="all">链接: 全部</option>
+                <option value="healthy">链接: 正常</option>
+                <option value="partial">链接: 部分缺失</option>
+                <option value="broken">链接: 已失效</option>
+              </select>
+              <input id="startDateFilter" type="date" aria-label="开始日期" />
+              <input id="endDateFilter" type="date" aria-label="结束日期" />
+            </div>
+
+            <label class="issues-toggle">
+              <input id="issuesOnlyFilter" type="checkbox" />
+              <span>仅看异常或缺失</span>
+            </label>
+          </div>
+
+          <div class="list-toolbar">
+            <span id="sessionCount" class="list-count">共 0 条结果</span>
+            <div class="toolbar-actions">
+              <button id="deleteSelectedButton" class="toolbar-link toolbar-link-danger" type="button">删除选中</button>
+              <button id="archiveAllButton" class="toolbar-link toolbar-link-primary" type="button">全部归档</button>
+            </div>
+          </div>
+
+          <div id="sessionList" class="session-list"></div>
+        </section>
+
+        <section class="detail-pane">
+          <div id="sessionDetail" class="detail-empty">
+            选择一条会话后，这里会显示会话详情、元信息和最近消息。
+          </div>
+        </section>
+      </main>
+
+      <main id="usagePage" class="usage-page hidden">
+        <section class="usage-hero">
+          <div>
+            <h2>用量统计</h2>
+            <p>监控本机多 AI CLI 会话的 Token 消耗与分布</p>
+          </div>
+          <div class="usage-controls">
+            <div id="usageDateRange" class="usage-date-range">--</div>
+            <select id="usageRangeSelect" class="usage-range-select">
+              <option value="7d">最近 7 天</option>
+              <option value="30d" selected>最近 30 天</option>
+              <option value="90d">最近 90 天</option>
+              <option value="365d">最近 365 天</option>
+            </select>
+            <button id="usageRefreshButton" class="usage-refresh-button" type="button">刷新</button>
+          </div>
+        </section>
+
+        <section id="usageCards" class="usage-card-grid"></section>
+
+        <section class="usage-grid">
+          <div class="usage-panel-card usage-model-card">
+            <div class="usage-panel-head">
+              <h3>模型用量分布</h3>
+              <span>按 Token 降序</span>
+            </div>
+            <div id="modelUsageTable" class="model-usage-table"></div>
+          </div>
+
+          <div class="usage-panel-card usage-type-card">
+            <div class="usage-panel-head">
+              <h3>会话类型占比</h3>
+            </div>
+            <div id="typeUsageList" class="type-usage-list"></div>
+            <div class="usage-panel-foot">数据随刷新同步本地会话库</div>
+          </div>
+        </section>
+
+        <section class="usage-panel-card trend-card">
+          <div class="trend-card-head">
+            <div>
+              <h3>Token 用量趋势</h3>
+              <p>按会话创建日期汇总的消耗波动图</p>
+            </div>
+            <div class="trend-tabs">
+              <button class="trend-tab" data-range="7d" type="button">周</button>
+              <button class="trend-tab active" data-range="30d" type="button">月</button>
+              <button class="trend-tab" data-range="365d" type="button">年</button>
+            </div>
+          </div>
+          <div id="usageTrendChart" class="usage-trend-chart"></div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
