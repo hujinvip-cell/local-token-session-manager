@@ -42,6 +42,27 @@ const providerLabels = {
   gemini: "Gemini CLI"
 };
 
+const themeIcons = {
+  light: `
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.8 6.8 0 0 0 9.8 9.8Z"></path>
+    </svg>
+  `,
+  dark: `
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="4.5"></circle>
+      <path d="M12 2.5v2.2"></path>
+      <path d="M12 19.3v2.2"></path>
+      <path d="m4.6 4.6 1.6 1.6"></path>
+      <path d="m17.8 17.8 1.6 1.6"></path>
+      <path d="M2.5 12h2.2"></path>
+      <path d="M19.3 12h2.2"></path>
+      <path d="m4.6 19.4 1.6-1.6"></path>
+      <path d="m17.8 6.2 1.6-1.6"></path>
+    </svg>
+  `
+};
+
 function qs(selector) {
   return document.querySelector(selector);
 }
@@ -628,7 +649,10 @@ function applyTheme() {
   document.body.classList.add(state.theme === "light" ? "theme-light" : "theme-dark");
   const themeButton = qs("#themeToggleButton");
   if (themeButton) {
-    themeButton.textContent = state.theme === "light" ? "🌙" : "☀️";
+    const label = state.theme === "light" ? "切换到深色主题" : "切换到浅色主题";
+    themeButton.innerHTML = state.theme === "light" ? themeIcons.light : themeIcons.dark;
+    themeButton.setAttribute("aria-label", label);
+    themeButton.title = label;
   }
 }
 

@@ -211,8 +211,26 @@ a {
   border: 1px solid transparent;
 }
 
+.icon-button {
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
 .icon-button:hover {
   background: var(--bg-panel-3);
+  color: var(--text);
+}
+
+.theme-toggle-button svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
 }
 
 .profile-avatar {
@@ -540,6 +558,68 @@ a {
   display: block;
 }
 
+body.theme-light .provider-pill {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+body.theme-light .usage-page {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(47, 111, 237, 0.14), transparent 34%),
+    linear-gradient(180deg, #f7fbff 0%, #eef5ff 42%, #f6f8fc 100%);
+}
+
+body.theme-light .usage-controls,
+body.theme-light .usage-stat-card,
+body.theme-light .usage-panel-card {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+body.theme-light .usage-stat-card.total {
+  border-color: rgba(47, 111, 237, 0.42);
+  background: linear-gradient(180deg, #eef6ff 0%, #ffffff 100%);
+}
+
+body.theme-light .model-usage-row,
+body.theme-light .model-usage-header {
+  border-bottom-color: #dce6f4;
+}
+
+body.theme-light .model-usage-header {
+  background: #edf4ff;
+  color: #3f5876;
+}
+
+body.theme-light .model-status.high {
+  background: rgba(204, 110, 28, 0.12);
+  color: #b45f12;
+}
+
+body.theme-light .type-track {
+  background: #e5edf7;
+}
+
+body.theme-light .usage-panel-foot {
+  border-top-color: #dce6f4;
+}
+
+body.theme-light .trend-tab {
+  background: #e8f0fb;
+  color: #4f5f78;
+}
+
+body.theme-light .trend-tab.active {
+  background: #2f6fed;
+  color: #ffffff;
+}
+
+body.theme-light .usage-trend-chart {
+  border-color: #d5e3f6;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 84px, rgba(58, 89, 135, 0.08) 85px),
+    radial-gradient(circle at 45% 80%, rgba(47, 111, 237, 0.1), transparent 42%),
+    linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+}
+
 .list-pane {
   width: 34%;
   min-width: 390px;
@@ -732,6 +812,19 @@ body.theme-light .filter-grid input[type="date"] {
 .session-row.selected {
   background: rgba(50, 53, 60, 0.82);
   box-shadow: inset -3px 0 0 var(--primary-strong);
+}
+
+body.theme-light .session-list {
+  background: #f4f8fd;
+}
+
+body.theme-light .session-row:hover {
+  background: #eef5ff;
+}
+
+body.theme-light .session-row.selected {
+  background: #e7f0ff;
+  box-shadow: inset -3px 0 0 #2f6fed;
 }
 
 .session-row-head {
@@ -1072,6 +1165,30 @@ body.theme-light .filter-grid input[type="date"] {
   border: 1px solid rgba(66, 71, 84, 0.72);
   color: var(--text);
   border-top-left-radius: 4px;
+}
+
+body.theme-light .message-row.user .message-bubble {
+  background: #2f6fed;
+  color: #ffffff;
+}
+
+body.theme-light .message-row.assistant .message-bubble,
+body.theme-light .message-row.system .message-bubble,
+body.theme-light .message-row.developer .message-bubble {
+  background: #ffffff;
+  border-color: #d7e3f5;
+  color: #182230;
+  box-shadow: 0 10px 22px rgba(80, 112, 160, 0.08);
+}
+
+body.theme-light .message-bubble pre {
+  background: #f6f9ff;
+  border-color: #d7e3f5;
+  color: #0f7a55;
+}
+
+body.theme-light .chat-divider-line {
+  background: #d9e4f2;
 }
 
 .message-bubble code,
